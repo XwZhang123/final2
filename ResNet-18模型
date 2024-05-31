@@ -1,0 +1,16 @@
+
+# 使用 ResNet-18 作为基于 CNN 的模型
+class ResNet_CIFAR100(nn.Module):
+    def __init__(self):
+        super(ResNet_CIFAR100, self).__init__()
+        self.model = models.resnet18(weights=None, num_classes=100)
+        self.model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+        self.model.maxpool = nn.Identity()
+        self.model.fc = nn.Linear(512, 100)
+
+    def forward(self, x):
+        return self.model(x)
+
+cnn_model = ResNet_CIFAR100()
+
+from vit_pytorch import ViT
